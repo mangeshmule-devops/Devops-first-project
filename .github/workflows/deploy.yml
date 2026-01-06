@@ -48,11 +48,12 @@ jobs:
 
             echo "Docker versions:"
             docker --version
-            docker compose version
+            docker-compose version
 
             echo "Deploying application"
-            docker compose pull
-            docker compose down
-            docker compose up -d
+            docker-compose -f dockercompose.yml pull
+            docker-compose -f dockercompose.yml down
+            docker-compose -f dockercompose.yml up -d
 
             echo "Deployment completed successfully"
+
