@@ -16,10 +16,12 @@ jobs:
 
       - name: Validate docker-compose.yml
         run: |
-          docker compose -f docker-compose.yml config
+          cd Devops-first-project
+          docker compose config
 
-      - name: Validate nginx.conf syntax
+      - name: Validate nginx.conf
         run: |
+          cd Devops-first-project
           docker run --rm \
             -v $PWD/nginx.conf:/etc/nginx/nginx.conf:ro \
             nginx:alpine nginx -t
@@ -38,26 +40,4 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           timeout: 30s
-          command_timeout: 10m
-          script: |
-            set -e
-
-            echo "Connected user:"
-            whoami
-
-            echo "Going to project directory"
-            cd /home/ubuntu/Devops-first-project
-
-            echo "Files in directory:"
-            ls -la
-
-            echo "Docker versions:"
-            docker --version
-            docker compose version
-
-            echo "Deploying application"
-            docker compose pull
-            docker compose down
-            docker compose up -d
-
-            echo "Deployment completed successfully"
+          command_ti_
