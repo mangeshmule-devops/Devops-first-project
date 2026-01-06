@@ -13,7 +13,7 @@ services:
       - backend
     networks:
       - fullstack-net
-    restart: always
+    restart: "always"
 
   frontend:
     image: mangesh1508/frontend:latest
@@ -22,14 +22,14 @@ services:
       - backend
     networks:
       - fullstack-net
-    restart: always
+    restart: "always"
 
   backend:
     image: mangesh1508/backend:latest
     container_name: backend
     networks:
       - fullstack-net
-    restart: always
+    restart: "always"
 
   mongo:
     image: mongo:6
@@ -41,3 +41,11 @@ services:
     networks:
       - fullstack-net
     restart: "always"
+
+volumes:
+  mongo_data:
+
+networks:
+  fullstack-net:
+    driver: bridge
+
