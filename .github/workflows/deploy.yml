@@ -1,23 +1,55 @@
-- name: Deploy on EC2 using Docker Compose
-  uses: appleboy/ssh-action@v1.0.3
-  with:
-    host: ${{ secrets.SERVER_HOST }}
-    username: ubuntu
-    key: ${{ secrets.SERVER_SSH_KEY }}
-    port: 22
-    timeout: 30s
-    command_timeout: 10m
-    script: |
-      set -e
-      whoami
-      pwd
+name: Deploy Docker Compose App to EC2
 
-      cd /home/ubuntu/Devops-first-project
-      ls -la
+on:
+  push:
+    branches:
+      - main
 
-      docker --version
-      docker compose version
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
 
-      docker compose pull
-      docker compose down
-      docker compose up -d
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy on EC2 using Docker Compose
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          timeout: 30s
+          command_timeout: 10m
+          script: |
+            set -e
+
+            echo "Connected as:"
+            whoami
+            echo "Current directory:"
+            pwd
+
+            echo "Moving to project directory"
+            cd /home/ubuntu/Devops-first-project
+
+            echo "Listing project files"
+            ls -la
+
+            echo "Docker version:"
+            docker --version
+
+            echo "Docker Compose version:"
+            docker compose version
+
+            echo "Pulling latest images"
+            docker compose pull
+
+            echo "Stopping existing containers"
+            docker compose down
+
+            echo "Starting containers"
+            docker compose up -d
+
+            echo "Deployment completed successfully"
