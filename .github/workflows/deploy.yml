@@ -40,4 +40,26 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           timeout: 30s
-          command_ti_
+          command_timeout: 10m
+          script: |
+            set -e
+
+            echo "Connected user:"
+            whoami
+
+            echo "Going to project directory"
+            cd /home/ubuntu/Devops-first-project
+
+            echo "Files in directory:"
+            ls -la
+
+            echo "Docker versions:"
+            docker --version
+            docker compose version
+
+            echo "Deploying application"
+            docker compose pull
+            docker compose down
+            docker compose up -d
+
+            echo "Deployment completed successfully"
