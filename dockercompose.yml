@@ -40,4 +40,4 @@ services:
       - mongo_data:/data/db
     networks:
       - fullstack-net
-    restart:
+    restart: "always"
