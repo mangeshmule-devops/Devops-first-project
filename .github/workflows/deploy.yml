@@ -16,7 +16,7 @@ jobs:
 
       - name: Validate docker-compose.yml
         run: |
-          docker compose config
+          docker compose -f dockercompose.yml config
 
       - name: Validate nginx.conf
         run: |
